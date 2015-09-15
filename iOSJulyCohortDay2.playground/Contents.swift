@@ -21,6 +21,10 @@ First, let's refresh ourselves with the creation of a simple function
 * Create a function that prints your name.
 * Create a function that takes your name as a parameter and prints your name
 */
+func myName(name:String) {
+    println("My name is \(name)")
+}
+myName("Raza")
 
 
 
@@ -37,7 +41,11 @@ This new function, takes two parameters of type **String** and type **Int** the 
 ### Have a go, update this function so that it returns both the passed String and an Integer. This could be your name and your age.
 
 */
-
+func myFuncName(name1:String, age:Int) -> String {
+    return "My name is \(name1) and iam \(age) years old"
+}
+myFuncName("Raza", 25)
+myFuncName("Kwame", 40)
 /*:
 
 ## Calling Functions
@@ -67,6 +75,18 @@ func hello(fromName name: String) {
 
 ### Have a go. Create a function that uses the **external parameter name** concept. In your challenge, instead of a string use an Integer value.
 */
+var someName = "Kwame"
+func hello(#name3:String,ageOne age1:Int,ageTwo age2:Int) {
+    var someOtherName = name3 + "Bill"
+    println("hey \(someOtherName) are you \(age1) or \(age2) ?")
+}
+hello(name3: someName, ageOne: 25, ageTwo: 30)
+
+
+
+
+
+
 
 /*:
 Now, you may be asking. What if the name of the variable is the name I want for the external parameter name. Do I need to write this twice? Lucky for us, this is not the case. Swift has a handy operator we can use for these types of situations. Looking back at our previous example.
@@ -135,6 +155,23 @@ Place parameters with default values at the end of a function’s parameter list
 I’m a huge fan of default parameters, mostly because it makes code easy to change and backward compatible. You might start out with two parameters for your specific use case at the time, such as a function to configure a custom UITableViewCell, and if another use case comes up that requires another parameter (such as a different text color for your cell’s label), just add a new parameter with a default value — all the other places where this function has already been called will be fine, and the new part of your code that needs the parameter can just pass in the non-default value!
 
 */
+func myFuncWithOptionalType(optionalParameter:String?) {
+    if let unwrappedOptional = optionalParameter {
+        println("The optional has a value! Its \(unwrappedOptional)")
+    } else {
+        println("The optional is nill!")
+    }
+}
+myFuncWithOptionalType("someString")
+myFuncWithOptionalType(nil)
+
+//default
+
+func hey(name5:String = "you") {
+    println("hey,\(name5)")
+}
+
+hey()
 
 /*:
 
@@ -177,7 +214,16 @@ The catch here is to remember that it is **possible to pass in 0 values**, just 
 * // Nobody here!
 
 */
-
+func helloWithNames(names:String...) {
+    if names.count > 0 {
+    for name in names {
+        println("Hello,\(name)")
+    }
+    } else {
+        println("Nobody here!")
+    }
+}
+helloWithNames()
 /*:
 ## Inout Parameters
 
@@ -203,6 +249,21 @@ With inout parameters, you have the ability to manipulate external variables (ak
 This can be used for doing error handling in Swift. Check out this amazing article on the subject. [Swift Programming Language Book on the topic.](http://owensd.io/2014/08/22/error-handling-take-two.html)
 
 */
+
+var name11 = "Raza"
+var name22 = "kwame"
+
+func nameswap(inout name11:String, inout name22:String) {
+    let oldName1 = name11
+    name11 = name22
+    name22 = oldName1
+}
+nameswap(&name11, &name22)
+name11
+name22
+
+//did it work im confused
+
 
 /*:
 ## Generic Parameter Types
@@ -231,6 +292,21 @@ I’m not going to get too much into generics in this assignment, but here is a 
 * number1 // 5
 * number2 // 2
 */
+func valueSwap<T>(inout value1: T, inout value2: T) {
+    let oldValue1 = value1
+    value2 = oldValue1
+}
+var name1 = "Mr.Bryan"
+var name2 = "Mr.Abrash"
+valueSwap(&name1, &name2)
+name1
+name2
+var number1 = 2
+var number2 = 5
+valueSwap(&number1, &number2)
+number1
+number2
+
 
 /*:
 ## Variable Parameters
@@ -257,6 +333,14 @@ Note that this is different than an inout parameter — variable parameters do n
 
 */
 
+var name = "Mr.Smith "
+func appendNumbersToName(var name:String,  #maxNumber:Int) -> String {
+    for i in 0..<maxNumber {
+        name += String(i + 1)
+    }
+    return name
+}
+appendNumbersToName(name,maxNumber:5)
 
 /*:
 
@@ -276,9 +360,24 @@ Note that this is different than an inout parameter — variable parameters do n
 * // Mr. Bryan, your lucky number is 38
 
 */
+// typo: can not cna :*
+
+func luckyNumberForName(name:String, #lotteryHandler:(String, Int) -> String) -> String {
+    let luckyNumber = Int(arc4random() % 100)
+    return lotteryHandler(name, luckyNumber)
+}
+func defaultLotteryHandler(name:String, luckyNumber:Int) -> String {
+    return "\(name), your lucky number is \(luckyNumber)"
+}
+luckyNumberForName("Mr.Bryan", lotteryHandler: defaultLotteryHandler)
 
 
-
+public func myPublicFunc() {
+    
+}
+func goAwayNSA() {
+    
+}
 /*:
 
 ## Access Controls
